@@ -11,16 +11,17 @@ async function getData() {
   );
   const res = await data.json();
   console.log(res);
-  dataset = res.data.slice(0, 100);
   //   dataset = res.data;
-  console.log(dataset);
+  dataset = res.data.slice(0, 10);
+  //   console.log(dataset);
   //   w = dataset.length;
   const maxHeight = Math.max(...dataset.map(d => d[1]));
+  console.log(maxHeight);
   vScale = h / maxHeight;
-  console.log(h / maxHeight);
+  //   console.log(h / maxHeight);
 
   divisor = w / dataset.length;
-  console.log(w, h);
+  //   console.log(w, h);
   loadPage();
 }
 
@@ -45,6 +46,10 @@ function loadPage() {
     .data(dataset)
     .enter()
     .append('rect')
+    .attr('data-date', (d, i) => {
+      console.log(d, i);
+      return d[0];
+    })
     .attr('x', (d, i) => {
       // Add your code below this line
       //   console.log(d, i);
