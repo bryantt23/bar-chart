@@ -11,57 +11,27 @@ async function getData() {
   );
   const res = await data.json();
   console.log(res);
-  dataset = res.data.slice(0, 10);
+  dataset = res.data.slice(0, 100);
+  //   dataset = res.data;
   console.log(dataset);
+  //   w = dataset.length;
+  const maxHeight = Math.max(...dataset.map(d => d[1]));
+  vScale = h / maxHeight;
+  console.log(h / maxHeight);
+
+  divisor = w / dataset.length;
+  console.log(w, h);
   loadPage();
 }
 
 getData();
 
-/*
-var margin = { top: 20, right: 20, bottom: 40, left: 60 };
-const width = 500,
-  height = 500;
-// create svg element
-const svg = d3
-  .select('body')
-  .append('svg')
-  .attr('width', width)
-  .attr('height', height)
-  .attr('id', 'title');
+let w = 500,
+  h = 500,
+  divisor = 1;
 
-// Create the scale
-const xAxis = d3
-  .scaleLinear()
-  .domain([0, 100]) // This is what is written on the Axis: from 0 to 100
-  .range([55, 800]); // This is where the axis is placed: from 100px to 800px
-//   .ticks(10);
-//   .attr("class", "tick");
-
-// Create the scale
-const yAxis = d3
-  .scaleLinear()
-  .domain([0, 100]) // This is what is written on the Axis: from 0 to 100
-  .range([290, 10]); // This is where the axis is placed: from 100px to 800px
-
-// Draw the axis
-svg
-  .append('g')
-  .attr('id', 'x-axis')
-  .attr('transform', 'translate(55,300)') // This controls the vertical position of the Axis
-  .call(d3.axisBottom(xAxis))
-
-  .append('g')
-  .attr('id', 'y-axis')
-  //   .attr('transform', 'rotate(-90)')
-  .attr('transform', 'translate(55,-300)') // This controls the vertical position of the Axis
-  .call(d3.axisLeft(yAxis));
-
-*/
-
-const w = 500;
-const h = 500;
-const scale = 1;
+const hScale = 1;
+let vScale = 1;
 
 function loadPage() {
   const svg = d3
@@ -77,21 +47,17 @@ function loadPage() {
     .append('rect')
     .attr('x', (d, i) => {
       // Add your code below this line
-      console.log(d, i);
-
-      return i * 30;
-
+      //   console.log(d, i);
+      return i * divisor * hScale;
       // Add your code above this line
     })
     .attr('y', (d, i) => {
       // Add your code below this line
-      console.log(d);
-
-      return h - d[1];
-
+      //   console.log(d[1], i);
+      return h - d[1] * vScale;
       // Add your code above this line
     })
     // .attr('y', 0)
-    .attr('width', 25)
-    .attr('height', (d, i) => d[1]);
+    .attr('width', 25 * hScale)
+    .attr('height', (d, i) => d[1] * vScale);
 }
