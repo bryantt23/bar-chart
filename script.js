@@ -39,16 +39,22 @@ function loadPage() {
     .select('body')
     .append('svg')
     .attr('width', w)
-    .attr('height', h);
+    .attr('height', h)
+    .attr('id', 'title');
 
   svg
     .selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
+    .attr('class', 'bar')
     .attr('data-date', (d, i) => {
       console.log(d, i);
       return d[0];
+    })
+    .attr('data-gdp', (d, i) => {
+      console.log(d, i);
+      return d[1];
     })
     .attr('x', (d, i) => {
       // Add your code below this line
