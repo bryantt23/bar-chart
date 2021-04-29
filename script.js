@@ -105,23 +105,29 @@ function loadPage() {
     .attr('height', (d, i) => d[1] * yScale);
   // */
 
-  const xAxisScale = d3
+  const yAxisScale = d3
     .scaleLinear()
     .domain([
-      startDate,
-      endDate
-      // dataset => {
-      //   console.log(dataset);
-      //   return dataset;
-      // }
+      0,
+      d3.max(dataset, d => {
+        return d[1];
+      })
     ])
+    .range([h, 0]);
+
+  const xAxisScale = d3
+    .scaleLinear()
+    .domain([startDate, endDate])
     .range([0, h]);
 
   const xAxis = d3.axisBottom().scale(xAxisScale);
+  svg.append('g').attr('id', 'x-axis').call(xAxis);
 
+  const yAxis = d3.axisLeft(yAxisScale);
   svg
     .append('g')
-    // .attr('transform', 'translate(500, ' + -h - padding + ')')
-    // .attr('transform', 'translate(0, 0' + ')')
-    .call(xAxis);
+    .attr('id', 'y-axis')
+    .attr('transform', `translate(${padding}, 0)`)
+    .call(yAxis);
+  // svg.append('g').attr('transform', `translate(0, 0)`).call(yAxis);
 }
