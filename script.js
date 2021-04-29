@@ -99,12 +99,16 @@ function loadPage() {
     .range([0, h]);
 
   const xAxis = d3.axisBottom().scale(xAxisScale);
-  svg.append('g').attr('id', 'x-axis').call(xAxis);
+  svg
+    .append('g')
+    .attr('id', 'x-axis')
+    .attr('transform', `translate(0, 0)`)
+    .call(xAxis);
 
   const yAxis = d3.axisLeft(yAxisScale);
   svg
     .append('g')
     .attr('id', 'y-axis')
-    .attr('transform', `translate(${padding}, 0)`)
+    .attr('transform', `translate(${w}, 0)`)
     .call(yAxis);
 }
