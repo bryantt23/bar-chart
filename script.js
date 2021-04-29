@@ -16,8 +16,8 @@ async function getData() {
   const res = await data.json();
   dataset = res.data;
   const n = res.data.length;
-  startDate = Number(dataset[0][0].split('-')[0]);
-  endDate = Number(dataset[n - 1][0].split('-')[0]);
+  startDate = dataset[0][0];
+  endDate = dataset[n - 1][0];
   const maxHeight = Math.max(...dataset.map(d => d[1]));
   yScale = h / maxHeight;
   xScale = w / dataset.length;
@@ -50,7 +50,7 @@ function loadPage() {
     .enter()
     .append('rect')
     .attr('class', 'bar')
-    .style('opacity', 0.1)
+    .style('opacity', 0.5)
     .on('mouseover', (d, i) => {
       const x = d.clientX,
         y = d.clientY;
@@ -94,8 +94,8 @@ function loadPage() {
     .range([h, 0]);
 
   const xAxisScale = d3
-    .scaleLinear()
-    .domain([startDate, endDate])
+    .scaleTime()
+    .domain([new Date(startDate), new Date(endDate)])
     .range([0, h]);
 
   const xAxis = d3.axisBottom().scale(xAxisScale);
