@@ -34,9 +34,9 @@ function loadPage() {
     .attr('width', w)
     .attr('height', h)
     .on('mousemove', () => {
-      d3.select('#tooltip')
-        .style('left', d3.event.pageX + 'px')
-        .style('top', d3.event.pageY + 'y');
+      d3.select('#tooltip');
+      // .style('left', d3.event.pageX + 'px')
+      // .style('top', d3.event.pageY + 'y');
     });
 
   const svg = d3
@@ -54,8 +54,14 @@ function loadPage() {
     .attr('class', 'bar')
     .style('opacity', 0.1)
     .on('mouseover', (d, i) => {
+      const x = d.clientX,
+        y = d.clientY;
+
       d3.select('#tooltip')
+        .style('top', y - 10 + 'px')
+        .style('left', x + 'px')
         .style('visibility', 'visible')
+        .style('background-color', 'white')
         .attr('data-date', `${i[0]}`)
         .text(`${i[0]} ${i[1]}`);
     })
