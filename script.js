@@ -41,15 +41,6 @@ function loadPage() {
     .attr('style', 'position: absolute; visibilty:hidden')
     .attr('width', w)
     .attr('height', h)
-    // .attr('x', e => {
-    //   console.log(e);
-    // })
-    // .attr('data-date', () => {
-    //   console.log(d3.event);
-    //   // d3.select('#tooltip')
-    //   //   .style('left', d3.event.pageX + 'px')
-    //   //   .style('top', d3.event.pageY + 'y');
-    // });
     .on('mousemove', () => {
       console.log(d3.event.target.attributes);
       d3.select('#tooltip')
@@ -82,6 +73,10 @@ function loadPage() {
       d3.select('#tooltip')
         .style('visibility', 'hidden')
         .attr('data-date', null);
+    })
+    .attr('data-date', (d, i) => {
+      console.log(d, i);
+      return d[0];
     })
     .attr('data-gdp', (d, i) => {
       console.log(d, i);
