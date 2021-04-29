@@ -1,9 +1,16 @@
 let dataset = [];
+const padding = 60;
+let w = 500,
+  h = 500,
+  xScale = 1,
+  yScale = 1,
+  startDate,
+  endDate;
 
 // const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 
 const d = document.querySelector('#test-suite-selector');
-console.log(d);
+// console.log(d);
 
 async function getData() {
   const data = await fetch(
@@ -12,25 +19,25 @@ async function getData() {
   const res = await data.json();
   console.log(res);
   dataset = res.data;
-  // dataset = res.data.slice(0, 10);
+  const n = res.data.length;
+  console.log(dataset[0]);
+  startDate = Number(dataset[0][0].split('-')[0]);
+  endDate = Number(dataset[n - 1][0].split('-')[0]);
+  console.log(startDate, endDate);
+  dataset = res.data.slice(0, 10);
   //   console.log(dataset);
   //   w = dataset.length;
   const maxHeight = Math.max(...dataset.map(d => d[1]));
   console.log(maxHeight);
-  vScale = h / maxHeight;
+  yScale = h / maxHeight;
   //   console.log(h / maxHeight);
 
-  hScale = w / dataset.length;
+  xScale = w / dataset.length;
   //   console.log(w, h);
   loadPage();
 }
 
 getData();
-
-let w = 500,
-  h = 500,
-  hScale = 1,
-  vScale = 1;
 
 function loadPage() {
   d3.select('body')
@@ -52,15 +59,16 @@ function loadPage() {
     .attr('width', w)
     .attr('height', h)
     .attr('id', 'title');
-
+  // /*
   svg
     .selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
     .attr('class', 'bar')
+    .style('opacity', 0.1)
     .on('mouseover', (d, i) => {
-      console.log(d, i);
+      // console.log(d, i);
       // d3.select('#tooltip').style('opacity', 1).text(`555`);
       d3.select('#tooltip')
         .style('visibility', 'visible')
@@ -73,26 +81,47 @@ function loadPage() {
         .attr('data-date', null);
     })
     .attr('data-date', (d, i) => {
-      console.log(d, i);
+      // console.log(d, i);
       return d[0];
     })
     .attr('data-gdp', (d, i) => {
-      console.log(d, i);
+      // console.log(d, i);
       return d[1];
     })
     .attr('x', (d, i) => {
       // Add your code below this line
       //   console.log(d, i);
-      return i * hScale;
+      return i * xScale;
       // Add your code above this line
     })
     .attr('y', (d, i) => {
       // Add your code below this line
       //   console.log(d[1], i);
-      return h - d[1] * vScale;
+      return h - d[1] * yScale;
       // Add your code above this line
     })
     // .attr('y', 0)
-    .attr('width', 25 * hScale)
-    .attr('height', (d, i) => d[1] * vScale);
+    .attr('width', 25 * xScale)
+    .attr('height', (d, i) => d[1] * yScale - padding);
+  // */
+
+  const xAxisScale = d3
+    .scaleLinear()
+    .domain([
+      0,
+      2020
+      // dataset => {
+      //   console.log(dataset);
+      //   return dataset;
+      // }
+    ])
+    .range([0, h]);
+
+  const xAxis = d3.axisBottom().scale(xAxisScale);
+
+  svg
+    .append('g')
+    // .attr('transform', 'translate(500, ' + -h - padding + ')')
+    .attr('transform', 'translate(0, ' + (h - padding) + ')')
+    .call(xAxis);
 }
