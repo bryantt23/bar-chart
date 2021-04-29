@@ -20,7 +20,7 @@ async function getData() {
   vScale = h / maxHeight;
   //   console.log(h / maxHeight);
 
-  divisor = w / dataset.length;
+  hScale = w / dataset.length;
   //   console.log(w, h);
   loadPage();
 }
@@ -29,10 +29,8 @@ getData();
 
 let w = 500,
   h = 500,
-  divisor = 1;
-
-const hScale = 1;
-let vScale = 1;
+  hScale = 1,
+  vScale = 1;
 
 function loadPage() {
   d3.select('body')
@@ -85,7 +83,7 @@ function loadPage() {
     .attr('x', (d, i) => {
       // Add your code below this line
       //   console.log(d, i);
-      return i * divisor * hScale;
+      return i * hScale;
       // Add your code above this line
     })
     .attr('y', (d, i) => {
