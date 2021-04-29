@@ -24,7 +24,7 @@ async function getData() {
   startDate = Number(dataset[0][0].split('-')[0]);
   endDate = Number(dataset[n - 1][0].split('-')[0]);
   console.log(startDate, endDate);
-  dataset = res.data.slice(0, 10);
+  // dataset = res.data.slice(0, 10);
   //   console.log(dataset);
   //   w = dataset.length;
   const maxHeight = Math.max(...dataset.map(d => d[1]));
@@ -102,14 +102,14 @@ function loadPage() {
     })
     // .attr('y', 0)
     .attr('width', 25 * xScale)
-    .attr('height', (d, i) => d[1] * yScale - padding);
+    .attr('height', (d, i) => d[1] * yScale);
   // */
 
   const xAxisScale = d3
     .scaleLinear()
     .domain([
-      0,
-      2020
+      startDate,
+      endDate
       // dataset => {
       //   console.log(dataset);
       //   return dataset;
@@ -122,6 +122,6 @@ function loadPage() {
   svg
     .append('g')
     // .attr('transform', 'translate(500, ' + -h - padding + ')')
-    .attr('transform', 'translate(0, ' + (h - padding) + ')')
+    // .attr('transform', 'translate(0, 0' + ')')
     .call(xAxis);
 }
