@@ -35,8 +35,6 @@ function loadPage() {
     .attr('height', h)
     .on('mousemove', () => {
       d3.select('#tooltip');
-      // .style('left', d3.event.pageX + 'px')
-      // .style('top', d3.event.pageY + 'y');
     });
 
   const svg = d3
@@ -82,7 +80,7 @@ function loadPage() {
     .attr('y', (d, i) => {
       return h - d[1] * yScale;
     })
-    .attr('width', 25 * xScale)
+    .attr('width', xScale)
     .attr('height', (d, i) => d[1] * yScale);
 
   const yAxisScale = d3
